@@ -1,0 +1,45 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/          # no local venv — use shared ~/.venvs/ml
+
+# uv
+# uv.lock is intentionally committed — do not add it here
+# requirements.lock is intentionally committed — do not add it here
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code — local-only settings (machine-specific permissions)
+.claude/settings.local.json
+
+# Data — keep folder structure, ignore actual files
+data/raw/*
+data/processed/*
+!data/**/.gitkeep
+
+# Models & artifacts — keep folder structure, ignore actual files
+models/checkpoints/*
+models/final/*
+artifacts/logs/*
+!models/**/.gitkeep
+!artifacts/**/.gitkeep
+
+# Viz outputs — keep folder structure, ignore generated images
+viz/*
+!viz/.gitkeep
+
+# Common data formats anywhere in the repo
+*.csv
+*.parquet
+*.pkl
+*.h5
+*.pt
+*.onnx

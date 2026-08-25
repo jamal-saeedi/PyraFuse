@@ -213,6 +213,8 @@ release. The workflow uses short-lived OpenID Connect credentials and does not
 require a stored PyPI token. For a local dry run, install the release tools and
 run the same checks used by CI:
 
+The intended PyPI publisher account is [@jamal_one](https://pypi.org/user/jamal_one/).
+
 ```bash
 python -m pip install -e ".[release]"
 python -m build

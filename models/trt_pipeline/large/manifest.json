@@ -1,0 +1,16 @@
+[
+  {
+    "label": "l",
+    "precision": "int8",
+    "encoder_onnx": "models/trt_pipeline/large/l_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/large/l_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/large/l_encoder_int8.engine",
+    "decoder_engine": "models/trt_pipeline/large/l_decoder_int8.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "min_batch": 1,
+    "opt_batch": 1,
+    "max_batch": 1,
+    "build_time_s": 465.6
+  }
+]

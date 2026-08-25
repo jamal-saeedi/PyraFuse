@@ -1,0 +1,44 @@
+[
+  {
+    "label": "s_plus",
+    "precision": "fp32",
+    "encoder_onnx": "models/trt_pipeline/small_plus/s_plus_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/small_plus/s_plus_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/small_plus/s_plus_encoder_fp32.engine",
+    "decoder_engine": "models/trt_pipeline/small_plus/s_plus_decoder_fp32.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "min_batch": 1,
+    "opt_batch": 1,
+    "max_batch": 1,
+    "build_time_s": 41.4
+  },
+  {
+    "label": "s_plus",
+    "precision": "mixed",
+    "encoder_onnx": "models/trt_pipeline/small_plus/s_plus_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/small_plus/s_plus_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/small_plus/s_plus_encoder_mixed.engine",
+    "decoder_engine": "models/trt_pipeline/small_plus/s_plus_decoder_mixed.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "min_batch": 1,
+    "opt_batch": 1,
+    "max_batch": 1,
+    "build_time_s": 61.3
+  },
+  {
+    "label": "s_plus",
+    "precision": "int8",
+    "encoder_onnx": "models/trt_pipeline/small_plus/s_plus_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/small_plus/s_plus_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/small_plus/s_plus_encoder_int8.engine",
+    "decoder_engine": "models/trt_pipeline/small_plus/s_plus_decoder_int8.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "min_batch": 1,
+    "opt_batch": 1,
+    "max_batch": 1,
+    "build_time_s": 293.0
+  }
+]

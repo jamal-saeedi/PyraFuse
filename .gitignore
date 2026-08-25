@@ -17,8 +17,8 @@ build/
 .vscode/
 .idea/
 
-# Claude Code — local-only settings (machine-specific permissions)
-.claude/settings.local.json
+# Claude Code
+.claude/
 
 # Data — keep folder structure, ignore actual files
 data/raw/*
@@ -27,14 +27,14 @@ data/processed/*
 
 # Models & artifacts — keep folder structure, ignore actual files
 models/checkpoints/*
-models/final/*
+models/finals/*
 artifacts/logs/*
+artifacts/*.log
+artifacts/*.status
+artifacts/mplconfig/
 !models/**/.gitkeep
 !artifacts/**/.gitkeep
 
-# Viz outputs — keep folder structure, ignore generated images
-viz/*
-!viz/.gitkeep
 
 # Common data formats anywhere in the repo
 *.csv
@@ -43,3 +43,5 @@ viz/*
 *.h5
 *.pt
 *.onnx
+*.onnx.data
+*.engine

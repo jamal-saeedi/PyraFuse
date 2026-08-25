@@ -1,0 +1,44 @@
+[
+  {
+    "label": "b",
+    "precision": "fp32",
+    "encoder_onnx": "models/trt_pipeline/base/b_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/base/b_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/base/b_encoder_fp32.engine",
+    "decoder_engine": "models/trt_pipeline/base/b_decoder_fp32.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "min_batch": 1,
+    "opt_batch": 1,
+    "max_batch": 1,
+    "build_time_s": 44.0
+  },
+  {
+    "label": "b",
+    "precision": "mixed",
+    "encoder_onnx": "models/trt_pipeline/base/b_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/base/b_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/base/b_encoder_mixed.engine",
+    "decoder_engine": "models/trt_pipeline/base/b_decoder_mixed.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "min_batch": 1,
+    "opt_batch": 1,
+    "max_batch": 1,
+    "build_time_s": 81.0
+  },
+  {
+    "label": "b",
+    "precision": "int8",
+    "encoder_onnx": "models/trt_pipeline/base/b_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/base/b_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/base/b_encoder_int8.engine",
+    "decoder_engine": "models/trt_pipeline/base/b_decoder_int8.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "min_batch": 1,
+    "opt_batch": 1,
+    "max_batch": 1,
+    "build_time_s": 310.2
+  }
+]

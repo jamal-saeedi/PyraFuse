@@ -1,0 +1,134 @@
+[
+  {
+    "size": "s",
+    "precision": "fp32",
+    "encoder_onnx": "models/trt_pipeline/small/s_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/small/s_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/small/s_encoder_fp32.engine",
+    "decoder_engine": "models/trt_pipeline/small/s_decoder_fp32.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "build_time_s": 61.0
+  },
+  {
+    "size": "s",
+    "precision": "mixed",
+    "encoder_onnx": "models/trt_pipeline/small/s_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/small/s_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/small/s_encoder_mixed.engine",
+    "decoder_engine": "models/trt_pipeline/small/s_decoder_mixed.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "build_time_s": 98.6
+  },
+  {
+    "size": "s",
+    "precision": "int8",
+    "encoder_onnx": "models/trt_pipeline/small/s_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/small/s_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/small/s_encoder_int8.engine",
+    "decoder_engine": "models/trt_pipeline/small/s_decoder_int8.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "build_time_s": 276.4
+  },
+  {
+    "size": "s_plus",
+    "precision": "fp32",
+    "encoder_onnx": "models/trt_pipeline/small_plus/s_plus_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/small_plus/s_plus_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/small_plus/s_plus_encoder_fp32.engine",
+    "decoder_engine": "models/trt_pipeline/small_plus/s_plus_decoder_fp32.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "build_time_s": 44.7
+  },
+  {
+    "size": "s_plus",
+    "precision": "mixed",
+    "encoder_onnx": "models/trt_pipeline/small_plus/s_plus_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/small_plus/s_plus_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/small_plus/s_plus_encoder_mixed.engine",
+    "decoder_engine": "models/trt_pipeline/small_plus/s_plus_decoder_mixed.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "build_time_s": 68.5
+  },
+  {
+    "size": "s_plus",
+    "precision": "int8",
+    "encoder_onnx": "models/trt_pipeline/small_plus/s_plus_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/small_plus/s_plus_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/small_plus/s_plus_encoder_int8.engine",
+    "decoder_engine": "models/trt_pipeline/small_plus/s_plus_decoder_int8.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "build_time_s": 242.5
+  },
+  {
+    "size": "b",
+    "precision": "fp32",
+    "encoder_onnx": "models/trt_pipeline/base/b_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/base/b_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/base/b_encoder_fp32.engine",
+    "decoder_engine": "models/trt_pipeline/base/b_decoder_fp32.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "build_time_s": 50.0
+  },
+  {
+    "size": "b",
+    "precision": "mixed",
+    "encoder_onnx": "models/trt_pipeline/base/b_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/base/b_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/base/b_encoder_mixed.engine",
+    "decoder_engine": "models/trt_pipeline/base/b_decoder_mixed.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "build_time_s": 92.0
+  },
+  {
+    "size": "b",
+    "precision": "int8",
+    "encoder_onnx": "models/trt_pipeline/base/b_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/base/b_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/base/b_encoder_int8.engine",
+    "decoder_engine": "models/trt_pipeline/base/b_decoder_int8.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "build_time_s": 294.0
+  },
+  {
+    "size": "l",
+    "precision": "fp32",
+    "encoder_onnx": "models/trt_pipeline/large/l_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/large/l_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/large/l_encoder_fp32.engine",
+    "decoder_engine": "models/trt_pipeline/large/l_decoder_fp32.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "build_time_s": 65.0
+  },
+  {
+    "size": "l",
+    "precision": "mixed",
+    "encoder_onnx": "models/trt_pipeline/large/l_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/large/l_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/large/l_encoder_mixed.engine",
+    "decoder_engine": "models/trt_pipeline/large/l_decoder_mixed.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "build_time_s": 113.7
+  },
+  {
+    "size": "l",
+    "precision": "int8",
+    "encoder_onnx": "models/trt_pipeline/large/l_encoder.onnx",
+    "decoder_onnx": "models/trt_pipeline/large/l_decoder.onnx",
+    "encoder_engine": "models/trt_pipeline/large/l_encoder_int8.engine",
+    "decoder_engine": "models/trt_pipeline/large/l_decoder_int8.engine",
+    "image_size": 448,
+    "num_classes": 3,
+    "build_time_s": 456.0
+  }
+]

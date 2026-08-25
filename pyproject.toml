@@ -5,6 +5,9 @@ description = "PyraFuse: DINOv3-based skin, fabric, and background segmentation"
 readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "Apache-2.0"}
+authors = [
+    {name = "Jamal Saeedi"},
+]
 keywords = [
     "semantic-segmentation",
     "skin-segmentation",
@@ -19,6 +22,8 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
@@ -41,6 +46,10 @@ dev = [
     "ipykernel>=6.0",
     "langdetect>=1.0.9",
 ]
+release = [
+    "build>=1.2",
+    "twine>=5.1",
+]
 data = [
     "albumentations>=1.4",
     "opencv-python>=4.9",
@@ -54,12 +63,25 @@ trt = [
     "tensorrt-cu12>=10.0; platform_system == 'Linux'",
 ]
 
+[project.scripts]
+pyrafuse-data = "pyrafuse.data.__main__:main"
+
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["pyrafuse"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "pyrafuse",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "CHANGELOG.md",
+    "pyproject.toml",
+]
 
 [tool.ruff]
 line-length = 88
@@ -72,4 +94,10 @@ select = ["E", "F", "I"]
 testpaths = ["tests"]
 
 [project.urls]
+Homepage = "https://github.com/jamal-saeedi/PyraFuse"
 Repository = "https://github.com/jamal-saeedi/PyraFuse"
+Documentation = "https://github.com/jamal-saeedi/PyraFuse#readme"
+Issues = "https://github.com/jamal-saeedi/PyraFuse/issues"
+Changelog = "https://github.com/jamal-saeedi/PyraFuse/blob/main/CHANGELOG.md"
+Models = "https://huggingface.co/jamal-one/PyraFuse"
+Author = "https://pypi.org/user/jamal_one/"

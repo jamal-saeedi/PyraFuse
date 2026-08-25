@@ -1,11 +1,17 @@
 # PyraFuse
 
+[![CI](https://github.com/jamal-saeedi/PyraFuse/actions/workflows/ci.yml/badge.svg)](https://github.com/jamal-saeedi/PyraFuse/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/badge/release-v1.0.0-2ea44f.svg)](https://github.com/jamal-saeedi/PyraFuse/releases)
+[![PyPI](https://img.shields.io/pypi/v/pyrafuse.svg?label=PyPI)](https://pypi.org/project/pyrafuse/)
+[![License](https://img.shields.io/github/license/jamal-saeedi/PyraFuse.svg)](LICENSE)
+[![Hugging Face](https://img.shields.io/badge/Model%20Zoo-Hugging%20Face-FFD21E.svg)](https://huggingface.co/jamal-one/PyraFuse)
+
 <p align="center">
-  <img src="images/flowchart.png" alt="PyraFuse architecture" width="92%">
+  <img src="https://raw.githubusercontent.com/jamal-saeedi/PyraFuse/main/images/flowchart.png" alt="PyraFuse architecture" width="92%">
 </p>
 
 <p align="center">
-  <a href="paper/PyraFuse_SkinFabric_VFM%20-%20db.pdf">Paper</a> · <a href="#model-zoo">Model zoo</a> · <a href="#inference">Inference</a> · <a href="#dataset">Dataset</a>
+  <a href="https://github.com/jamal-saeedi/PyraFuse/blob/main/paper/PyraFuse_SkinFabric_VFM%20-%20db.pdf">Paper</a> · <a href="#model-zoo">Model zoo</a> · <a href="#inference">Inference</a> · <a href="#dataset">Dataset</a>
 </p>
 
 PyraFuse is a DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference as well as GPU-specific TensorRT deployment. The current release is **v1.0.0**.
@@ -13,7 +19,7 @@ PyraFuse is a DINOv3-based semantic-segmentation framework for **skin, fabric, a
 The accompanying paper has been accepted at **AIMLSystems 2026**. This repository contains the code, reproducible data-preparation pipeline, inference notebooks, model-zoo interface, and accepted manuscript.
 
 <p align="center">
-  <img src="images/sample_results.png" alt="PyraFuse qualitative segmentation results" width="92%">
+  <img src="https://raw.githubusercontent.com/jamal-saeedi/PyraFuse/main/images/sample_results.png" alt="PyraFuse qualitative segmentation results" width="92%">
 </p>
 
 ## Highlights
@@ -28,6 +34,20 @@ The accompanying paper has been accepted at **AIMLSystems 2026**. This repositor
 
 Python 3.12+ is required. Install the base package for PyTorch/Hugging Face inference, then add the extras needed for data preparation or deployment.
 
+When the first release is published, install the package directly from PyPI:
+
+```bash
+python -m pip install pyrafuse
+```
+
+Optional extras are available through the same package name:
+
+```bash
+python -m pip install "pyrafuse[data,deploy]"
+```
+
+For a development checkout, install the local project in editable mode:
+
 ```bash
 git clone https://github.com/jamal-saeedi/PyraFuse.git
 cd PyraFuse
@@ -41,6 +61,13 @@ For TensorRT, use the NVIDIA TensorRT package that matches the CUDA runtime on t
 
 ```bash
 pip install -e ".[trt]"
+```
+
+The package also exposes the data-mask builder as `pyrafuse-data` when the
+`data` extra is installed:
+
+```bash
+pyrafuse-data --split val
 ```
 
 ## Model zoo
@@ -138,10 +165,10 @@ python scripts/export_trt.py \
 INT8 should be calibrated with representative, preprocessed images for production. Always run `--verify` and evaluate on held-out images after building an engine.
 
 <p align="center">
-  <img src="images/backbones.png" alt="PyraFuse backbone comparison" width="92%">
+  <img src="https://raw.githubusercontent.com/jamal-saeedi/PyraFuse/main/images/backbones.png" alt="PyraFuse backbone comparison" width="92%">
 </p>
 <p align="center">
-  <img src="images/mIoU.png" alt="PyraFuse mIoU comparison" width="92%">
+  <img src="https://raw.githubusercontent.com/jamal-saeedi/PyraFuse/main/images/mIoU.png" alt="PyraFuse mIoU comparison" width="92%">
 </p>
 
 ## Dataset
@@ -174,6 +201,23 @@ pyrafuse/
 - Record the Git commit, Hub revision, model variant, input size, dataset split, metric implementation, CUDA/TensorRT versions, and precision.
 - Tag the GitHub code release and corresponding Hugging Face model revision with the same semantic version, such as `v1.0.0`.
 - Keep raw data, credentials, experiment logs, and binary model artifacts out of Git. The current `.gitignore` enforces this policy.
+
+## PyPI release
+
+The repository includes a two-stage release path: CI builds and validates a
+wheel on every push, while [`.github/workflows/publish-pypi.yml`](.github/workflows/publish-pypi.yml)
+publishes only a GitHub **published release**. To enable it, register
+`jamal-saeedi/PyraFuse` as a PyPI Trusted Publisher for the `pypi` environment,
+then update `version` in `pyproject.toml`, commit, tag, and publish the GitHub
+release. The workflow uses short-lived OpenID Connect credentials and does not
+require a stored PyPI token. For a local dry run, install the release tools and
+run the same checks used by CI:
+
+```bash
+python -m pip install -e ".[release]"
+python -m build
+twine check dist/*
+```
 
 ## Citation
 

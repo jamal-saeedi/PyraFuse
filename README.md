@@ -138,8 +138,10 @@ python scripts/export_trt.py \
 INT8 should be calibrated with representative, preprocessed images for production. Always run `--verify` and evaluate on held-out images after building an engine.
 
 <p align="center">
-  <img src="images/backbones.png" alt="PyraFuse backbone comparison" width="48%">
-  <img src="images/mIoU.png" alt="PyraFuse mIoU comparison" width="48%">
+  <img src="images/backbones.png" alt="PyraFuse backbone comparison" width="92%">
+</p>
+<p align="center">
+  <img src="images/mIoU.png" alt="PyraFuse mIoU comparison" width="92%">
 </p>
 
 ## Dataset

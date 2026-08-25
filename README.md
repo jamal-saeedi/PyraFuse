@@ -210,10 +210,24 @@ publishes only a GitHub **published release**. To enable it, register
 `jamal-saeedi/PyraFuse` as a PyPI Trusted Publisher for the `pypi` environment,
 then update `version` in `pyproject.toml`, commit, tag, and publish the GitHub
 release. The workflow uses short-lived OpenID Connect credentials and does not
-require a stored PyPI token. For a local dry run, install the release tools and
-run the same checks used by CI:
+require a stored PyPI token.
 
 The intended PyPI publisher account is [@jamal_one](https://pypi.org/user/jamal_one/).
+
+For this first release, open PyPI **Account settings → Publishing → Add a new
+pending publisher** and enter:
+
+| Field | Value |
+| --- | --- |
+| Owner | `jamal-saeedi` |
+| Repository | `PyraFuse` |
+| Workflow filename | `publish-pypi.yml` |
+| Environment | `pypi` |
+
+Save the pending publisher, then create a GitHub Release from tag `v1.0.0`.
+The workflow creates the `pyrafuse` project page on its first successful run.
+For a local dry run, install the release tools and run the same checks used by
+CI:
 
 ```bash
 python -m pip install -e ".[release]"

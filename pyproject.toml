@@ -1,6 +1,6 @@
 [project]
 name = "pyrafuse"
-version = "1.1.0"
+version = "1.1.1"
 description = "PyraFuse: DINOv3-based skin, fabric, and background segmentation"
 readme = "README.md"
 requires-python = ">=3.12"

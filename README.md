@@ -14,7 +14,7 @@
   <a href="https://github.com/jamal-saeedi/PyraFuse/blob/main/paper/PyraFuse_SkinFabric_VFM%20-%20db.pdf">Paper</a> · <a href="#model-zoo">Model zoo</a> · <a href="#inference">Inference</a> · <a href="#dataset">Dataset</a> · <a href="#training">Training</a>
 </p>
 
-PyraFuse is a DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference as well as GPU-specific TensorRT deployment. The current release is **v1.1.0**.
+PyraFuse is a DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference as well as GPU-specific TensorRT deployment. The current release is **v1.1.1**.
 
 The accompanying paper has been accepted at **AIMLSystems 2026**. This repository contains the code, reproducible data-preparation pipeline, inference notebooks, model-zoo interface, and accepted manuscript.
 
@@ -255,7 +255,7 @@ pyrafuse/
 
 ## PyPI package
 
-The current package is published as [`pyrafuse 1.1.0`](https://pypi.org/project/pyrafuse/):
+The current package is published as [`pyrafuse 1.1.1`](https://pypi.org/project/pyrafuse/):
 
 ```bash
 python -m pip install pyrafuse

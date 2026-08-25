@@ -2,6 +2,12 @@
 
 All notable changes to PyraFuse are documented here.
 
+## [1.1.1] - 2026-08-26
+
+- Simplified the published PyPI documentation and installation guidance.
+- Added the training section to the README's top navigation.
+- Refreshed the PyPI badge to display the current published version reliably.
+
 ## [1.1.0] - 2026-08-26
 
 - Added the configurable `scripts/train_segmenter.py` training CLI.

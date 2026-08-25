@@ -23,9 +23,9 @@ from __future__ import annotations
 import copy
 import gc
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional
+from typing import Dict, List, Optional
 
 import torch
 from torch.utils.data import DataLoader
@@ -35,7 +35,6 @@ from ..model import DINOv3Segmenter
 from .losses import build_loss
 from .metrics import ConfusionMatrix, MetricTracker
 from .mixup import MixCollator
-
 
 # Variable batch/input shapes (e.g. the smaller last eval batch) make cuDNN's
 # benchmark autotuner re-tune and reserve fresh workspace per shape, which is
@@ -66,6 +65,7 @@ class TrainConfig:
     w_focal: float = 1.0
     w_ce: float = 1.0
     w_dice: float = 1.0
+    dice_smooth: float = 1.0
     class_weights: Optional[List[float]] = None  # CE/focal alpha [C], inv-freq
 
     # mix augmentation
@@ -131,6 +131,7 @@ class Trainer:
             w_ce=self.cfg.w_ce,
             w_dice=self.cfg.w_dice,
             ignore_index=self.cfg.ignore_index,
+            smooth=self.cfg.dice_smooth,
         ).to(self.device)
 
         self.mixer = MixCollator(
@@ -229,7 +230,9 @@ class Trainer:
 
     # -- evaluation ----------------------------------------------------------
     @torch.no_grad()
-    def evaluate(self, loader: DataLoader, use_ema: Optional[bool] = None) -> Dict[str, float]:
+    def evaluate(
+        self, loader: DataLoader, use_ema: Optional[bool] = None
+    ) -> Dict[str, float]:
         """Evaluate on ``loader`` and return the metric summary dict.
 
         When ``use_ema`` (default: ``cfg.eval_with_ema``) and an EMA shadow
@@ -320,7 +323,9 @@ class Trainer:
 
     # -- inference helper for viz -------------------------------------------
     @torch.no_grad()
-    def predict(self, image: torch.Tensor, use_ema: Optional[bool] = None) -> torch.Tensor:
+    def predict(
+        self, image: torch.Tensor, use_ema: Optional[bool] = None
+    ) -> torch.Tensor:
         """Predict class maps for a ``[B, 3, H, W]`` (normalised) image batch.
 
         Returns ``[B, H, W]`` integer predictions. Mirrors :meth:`evaluate`'s

@@ -14,7 +14,7 @@
   <a href="https://github.com/jamal-saeedi/PyraFuse/blob/main/paper/PyraFuse_SkinFabric_VFM%20-%20db.pdf">Paper</a> · <a href="#model-zoo">Model zoo</a> · <a href="#inference">Inference</a> · <a href="#dataset">Dataset</a>
 </p>
 
-PyraFuse is a DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference as well as GPU-specific TensorRT deployment. The current release is **v1.0.0**.
+PyraFuse is a DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference as well as GPU-specific TensorRT deployment. The current release is **v1.1.0**.
 
 The accompanying paper has been accepted at **AIMLSystems 2026**. This repository contains the code, reproducible data-preparation pipeline, inference notebooks, model-zoo interface, and accepted manuscript.
 
@@ -182,12 +182,63 @@ python scripts/prepare_data.py --help
 
 The [dataset notebook](notebooks/skin_fabric_dataset.ipynb) documents source data, label creation, dataloaders, class balance, and skin-tone analysis. Please comply with the licences and terms of the source datasets.
 
+## Training
+
+`scripts/train_segmenter.py` is the reproducible training CLI. It combines the
+train and validation sources, creates the fixed 75/15/15 split (seed `42` by
+default), estimates class weights, trains with Focal+Dice and EMA, and writes
+`run_config.json`, `metrics.json`, `best/`, and `last/` to the run directory.
+
+Install the data and development extras, then prepare the labels:
+
+```bash
+python -m pip install -e ".[data,dev]"
+python scripts/prepare_data.py
+```
+
+Run a one-batch CPU smoke test using the published `small` checkpoint. The
+checkpoint is intentionally not stored in Git; download it from the [PyraFuse
+Hub repository](https://huggingface.co/jamal-one/PyraFuse) first:
+
+```bash
+hf download jamal-one/PyraFuse --include "small/**" --local-dir models/finals
+
+python scripts/train_segmenter.py \
+  --resume models/finals/small \
+  --device cpu --batch-size 1 --num-workers 0 \
+  --no-class-weights --mix-prob 0 --smoke --skip-test \
+  --checkpoint-path /tmp/pyrafuse-train-smoke
+```
+
+Fine-tune a published checkpoint on CUDA, or train a fresh DINOv3-S encoder
+after configuring your Hugging Face access in `HF_TOKEN`:
+
+```bash
+# Warm-start (architecture is read from config.json)
+python scripts/train_segmenter.py \
+  --resume models/finals/small --device cuda \
+  --epochs 25 --batch-size 16 \
+  --checkpoint-path models/checkpoints/pyrafuse-small-finetune
+
+# Fresh DINOv3-S run (the backbone remains frozen unless --finetune-backbone)
+python scripts/train_segmenter.py \
+  --encoder-size s --decoder pyrafuse --loss focal_dice \
+  --device cuda --epochs 150 --batch-size 16 \
+  --checkpoint-path models/checkpoints/pyrafuse-s
+```
+
+Use `--dry-run` to validate paths, split sizes, model construction, and loss
+configuration without fitting. Use `--finetune-backbone` only when the target
+GPU and dataset size justify end-to-end fine-tuning. See
+`python scripts/train_segmenter.py --help` for all data, augmentation,
+precision, checkpoint, and monitoring options.
+
 ## Repository layout
 
 ```text
 pyrafuse/
 ├── pyrafuse/       # model, data, training, deployment, and model-zoo code
-├── scripts/        # data preparation and TensorRT export CLIs
+├── scripts/        # data preparation, training, and TensorRT export CLIs
 ├── notebooks/      # dataset and inference walkthroughs
 ├── models/         # ignored local checkpoints; tracked manifests and guidance
 ├── images/         # paper figures and qualitative results
@@ -199,7 +250,7 @@ pyrafuse/
 
 - Use the EMA weights for evaluation (`load_pretrained(..., use_ema=True)`).
 - Record the Git commit, Hub revision, model variant, input size, dataset split, metric implementation, CUDA/TensorRT versions, and precision.
-- Tag the GitHub code release and corresponding Hugging Face model revision with the same semantic version, such as `v1.0.0`.
+- Tag each GitHub code release with a semantic version. Update the Hugging Face model revision when the published weights change; the current pretrained bundles remain at `v1.0.0`.
 - Keep raw data, credentials, experiment logs, and binary model artifacts out of Git. The current `.gitignore` enforces this policy.
 
 ## PyPI release
@@ -224,7 +275,7 @@ pending publisher** and enter:
 | Workflow filename | `publish-pypi.yml` |
 | Environment | `pypi` |
 
-Save the pending publisher, then create a GitHub Release from tag `v1.0.0`.
+Save the pending publisher, then create a GitHub Release from tag `v1.1.0`.
 The workflow creates the `pyrafuse` project page on its first successful run.
 For a local dry run, install the release tools and run the same checks used by
 CI:

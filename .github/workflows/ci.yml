@@ -39,7 +39,8 @@ jobs:
       - name: Lint public package surface
         run: >-
           ruff check pyrafuse/__init__.py pyrafuse/zoo.py
-          pyrafuse/data/__main__.py tests/test_zoo.py
+          pyrafuse/data/__main__.py pyrafuse/train/trainer.py
+          scripts/train_segmenter.py tests/test_zoo.py
 
       - name: Test
         run: pytest -q

@@ -1,8 +1,8 @@
 # PyraFuse
 
-[![CI](https://github.com/jamal-saeedi/PyraFuse/actions/workflows/ci.yml/badge.svg)](https://github.com/jamal-saeedi/PyraFuse/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/badge/release-v1.0.0-2ea44f.svg)](https://github.com/jamal-saeedi/PyraFuse/releases)
-[![PyPI](https://img.shields.io/pypi/v/pyrafuse.svg?label=PyPI)](https://pypi.org/project/pyrafuse/)
+[![CI](https://github.com/jamal-saeedi/PyraFuse/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/jamal-saeedi/PyraFuse/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/jamal-saeedi/PyraFuse?label=release)](https://github.com/jamal-saeedi/PyraFuse/releases)
+[![PyPI](https://img.shields.io/pypi/v/pyrafuse.svg?label=PyPI&cacheSeconds=300)](https://pypi.org/project/pyrafuse/)
 [![License](https://img.shields.io/github/license/jamal-saeedi/PyraFuse.svg)](LICENSE)
 [![Hugging Face](https://img.shields.io/badge/Model%20Zoo-Hugging%20Face-FFD21E.svg)](https://huggingface.co/jamal-one/PyraFuse)
 

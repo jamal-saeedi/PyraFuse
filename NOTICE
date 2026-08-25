@@ -1,0 +1,16 @@
+PyraFuse
+Copyright 2026 The PyraFuse Contributors
+
+This repository's original source code is licensed under Apache License 2.0.
+The Apache-2.0 grant applies only to copyrightable original PyraFuse code for
+which the contributors have the authority to grant that licence.
+
+Published PyraFuse checkpoint bundles contain or are derived from Meta DINOv3
+backbone material. The DINOv3 material is not relicensed under Apache-2.0.
+Use, distribution, and redistribution of the model bundles are additionally
+subject to the DINOv3 License Agreement. The public Hugging Face model release
+includes a copy of that licence in LICENSES/DINOv3-LICENSE.md.
+
+Fashionpedia and visuAAL source data are not redistributed by this repository.
+Their data, annotations, and associated use conditions remain governed by the
+respective upstream providers.

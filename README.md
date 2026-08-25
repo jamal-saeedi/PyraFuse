@@ -8,7 +8,7 @@
   <a href="paper/PyraFuse_SkinFabric_VFM%20-%20db.pdf">Paper</a> · <a href="#model-zoo">Model zoo</a> · <a href="#inference">Inference</a> · <a href="#dataset">Dataset</a>
 </p>
 
-PyraFuse is a DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference as well as GPU-specific TensorRT deployment.
+PyraFuse is a DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference as well as GPU-specific TensorRT deployment. The current release is **v1.0.0**.
 
 The accompanying paper has been accepted at **AIMLSystems 2026**. This repository contains the code, reproducible data-preparation pipeline, inference notebooks, model-zoo interface, and accepted manuscript.
 
@@ -45,7 +45,7 @@ pip install -e ".[trt]"
 
 ## Model zoo
 
-The four checkpoint variants are directory bundles, not single pickled files. The bundles are excluded from Git because the full backbones are large. On a development checkout, place them under `models/finals/`; for a public release, host the same folders in the official Hugging Face model repo.
+The four checkpoint variants are directory bundles, not single pickled files. The bundles are excluded from Git because the full backbones are large. On a development checkout, place them under `models/finals/`; the public bundles are available in the [jamal-one/PyraFuse Hugging Face model repository](https://huggingface.co/jamal-one/PyraFuse).
 
 | Variant | Encoder | Local checkpoint directory |
 | --- | --- | --- |
@@ -67,10 +67,10 @@ Each variant uses this portable layout:
     └── feature_norms.pt
 ```
 
-Set the official Hub repository once it has been created (for example, `<namespace>/PyraFuse`):
+The official public model repository is [jamal-one/PyraFuse](https://huggingface.co/jamal-one/PyraFuse). It is the default model source; set an environment variable only to use a private mirror or fork:
 
 ```bash
-export PYRAFUSE_MODEL_REPO=<namespace>/PyraFuse
+export PYRAFUSE_MODEL_REPO=your-namespace/PyraFuse
 ```
 
 `load_pretrained` checks a local `models/finals/<variant>` first, then downloads only the requested variant from that Hub repository. Pin `revision` to a Hub tag or commit SHA when reproducing an experiment.
@@ -80,8 +80,7 @@ from pyrafuse import load_pretrained
 
 model = load_pretrained(
     "base",
-    repo_id="<namespace>/PyraFuse",  # optional when PYRAFUSE_MODEL_REPO is set
-    revision="v1.0.0",              # recommended for reproducibility
+    revision="v1.0.0",  # recommended for reproducibility
     device="cuda",
 )
 ```
@@ -180,7 +179,7 @@ The manuscript is accepted at AIMLSystems 2026 and is not yet formally published
 
 ## Licence
 
-The release licence has not yet been selected. Add a `LICENSE` file before public distribution or reuse of code and weights.
+The original PyraFuse source code is released under [Apache-2.0](LICENSE). The published checkpoint bundles include Meta DINOv3 backbone material and therefore remain subject to the [DINOv3 License](https://github.com/facebookresearch/dinov3/blob/main/LICENSE.md), provided alongside each public model release. Fashionpedia and visuAAL data are not redistributed and remain subject to their respective terms. See [NOTICE](NOTICE) before redistributing code or weights.
 
 ## Tags
 

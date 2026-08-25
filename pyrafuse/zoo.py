@@ -4,11 +4,10 @@ PyraFuse checkpoints are directories, rather than a single pickle, so they
 remain auditable and can be loaded offline after their first download::
 
     from pyrafuse import load_pretrained
-    model = load_pretrained("base", repo_id="<namespace>/PyraFuse")
+    model = load_pretrained("base", revision="v1.0.0")
 
-The Hugging Face model repository is deliberately supplied by the caller (or
-``PYRAFUSE_MODEL_REPO``).  This keeps the library usable before the official
-Hub repository is created and avoids hard-coding an unofficial mirror.
+The official public repository is ``jamal-one/PyraFuse``. A caller can set
+``PYRAFUSE_MODEL_REPO`` or pass ``repo_id`` to use a private mirror or fork.
 """
 
 from __future__ import annotations
@@ -19,6 +18,10 @@ from pathlib import Path
 from typing import Literal
 
 Variant = Literal["small", "small_plus", "base", "large"]
+
+# Official public release. Set PYRAFUSE_MODEL_REPO or pass repo_id to use a
+# private mirror or a fork instead.
+OFFICIAL_MODEL_REPO = "jamal-one/PyraFuse"
 
 
 @dataclass(frozen=True)
@@ -79,12 +82,7 @@ def resolve_checkpoint(
     if _is_checkpoint(local):
         return local.resolve()
 
-    repo_id = repo_id or os.environ.get("PYRAFUSE_MODEL_REPO")
-    if not repo_id:
-        raise ValueError(
-            "No local checkpoint was found. Set PYRAFUSE_MODEL_REPO or pass "
-            "repo_id='<namespace>/PyraFuse'."
-        )
+    repo_id = repo_id or os.environ.get("PYRAFUSE_MODEL_REPO") or OFFICIAL_MODEL_REPO
 
     try:
         from huggingface_hub import snapshot_download

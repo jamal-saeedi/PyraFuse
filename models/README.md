@@ -1,6 +1,6 @@
 # PyraFuse model release guide
 
-The Git repository intentionally contains no pretrained weight binaries. The source-of-truth release should be a Hugging Face **model** repository with one folder per variant:
+The Git repository intentionally contains no pretrained weight binaries. The source-of-truth release is the public Hugging Face [jamal-one/PyraFuse](https://huggingface.co/jamal-one/PyraFuse) model repository, with one folder per variant:
 
 ```text
 PyraFuse/
@@ -15,12 +15,11 @@ Every variant folder must include `config.json`, `decoder.pt`, `backbone/`, andâ
 
 ## Publishing
 
-1. Create the model repository, for example `hf repos create <namespace>/PyraFuse`.
-2. Add a model card with the task, class mapping, preprocessing, source data, evaluation protocol, known limitations, licence, GitHub commit, and paper citation once published.
+1. Add a model card with the task, class mapping, preprocessing, source data, evaluation protocol, known limitations, licence, GitHub commit, and paper citation once published.
 3. Upload checkpoint folders resumably with Git LFS through the official CLI:
 
    ```bash
-   hf upload-large-folder <namespace>/PyraFuse <staging-dir>
+   hf upload jamal-one/PyraFuse <staging-dir> .
    ```
 
    The staging directory must contain the four variant folders at its root. Do not upload TensorRT `.engine` files as the default model release.
@@ -28,11 +27,11 @@ Every variant folder must include `config.json`, `decoder.pt`, `backbone/`, andâ
 4. Create a Hub tag matching the GitHub release:
 
    ```bash
-   hf repos tag create <namespace>/PyraFuse v1.0.0 \
+   hf repos tag create jamal-one/PyraFuse v1.0.0 \
      --message "PyraFuse AIMLSystems 2026 release"
    ```
 
-5. Set `PYRAFUSE_MODEL_REPO=<namespace>/PyraFuse` in user environments.
+5. `load_pretrained` uses `jamal-one/PyraFuse` by default. Set `PYRAFUSE_MODEL_REPO` only to use a mirror or fork.
 
 ## TensorRT policy
 

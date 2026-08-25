@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/jamal-saeedi/PyraFuse/blob/main/paper/PyraFuse_SkinFabric_VFM%20-%20db.pdf">Paper</a> · <a href="#model-zoo">Model zoo</a> · <a href="#inference">Inference</a> · <a href="#dataset">Dataset</a>
+  <a href="https://github.com/jamal-saeedi/PyraFuse/blob/main/paper/PyraFuse_SkinFabric_VFM%20-%20db.pdf">Paper</a> · <a href="#model-zoo">Model zoo</a> · <a href="#inference">Inference</a> · <a href="#dataset">Dataset</a> · <a href="#training">Training</a>
 </p>
 
 PyraFuse is a DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference as well as GPU-specific TensorRT deployment. The current release is **v1.1.0**.

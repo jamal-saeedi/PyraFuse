@@ -253,32 +253,22 @@ pyrafuse/
 - Tag each GitHub code release with a semantic version. Update the Hugging Face model revision when the published weights change; the current pretrained bundles remain at `v1.0.0`.
 - Keep raw data, credentials, experiment logs, and binary model artifacts out of Git. The current `.gitignore` enforces this policy.
 
-## PyPI release
+## PyPI package
 
-The repository includes a two-stage release path: CI builds and validates a
-wheel on every push, while [`.github/workflows/publish-pypi.yml`](.github/workflows/publish-pypi.yml)
-publishes only a GitHub **published release**. To enable it, register
-`jamal-saeedi/PyraFuse` as a PyPI Trusted Publisher for the `pypi` environment,
-then update `version` in `pyproject.toml`, commit, tag, and publish the GitHub
-release. The workflow uses short-lived OpenID Connect credentials and does not
-require a stored PyPI token.
+The current package is published as [`pyrafuse 1.1.0`](https://pypi.org/project/pyrafuse/):
 
-The intended PyPI publisher account is [@jamal_one](https://pypi.org/user/jamal_one/).
+```bash
+python -m pip install pyrafuse
+```
 
-For this first release, open PyPI **Account settings → Publishing → Add a new
-pending publisher** and enter:
+CI builds and validates a wheel on every push. The
+[publish workflow](.github/workflows/publish-pypi.yml) uploads distributions
+when a GitHub Release is published; its PyPI Trusted Publisher is already
+configured for this repository, so no long-lived token is stored in GitHub.
 
-| Field | Value |
-| --- | --- |
-| Owner | `jamal-saeedi` |
-| Repository | `PyraFuse` |
-| Workflow filename | `publish-pypi.yml` |
-| Environment | `pypi` |
-
-Save the pending publisher, then create a GitHub Release from tag `v1.1.0`.
-The workflow creates the `pyrafuse` project page on its first successful run.
-For a local dry run, install the release tools and run the same checks used by
-CI:
+For maintainers, bump `version` in `pyproject.toml`, commit and tag the change,
+then publish the corresponding GitHub Release. For a local dry run, install the
+release tools and run the same checks used by CI:
 
 ```bash
 python -m pip install -e ".[release]"

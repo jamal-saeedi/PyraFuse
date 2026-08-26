@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use PyraFuse, please cite this software release."
+title: "PyraFuse: DINOv3-based skin, fabric, and background segmentation"
+type: software
+authors:
+  - family-names: Saeedi
+    given-names: Jamal
+version: 1.1.1
+date-released: 2026-08-26
+license: Apache-2.0
+repository-code: "https://github.com/jamal-saeedi/PyraFuse"
+url: "https://github.com/jamal-saeedi/PyraFuse"
+keywords:
+  - semantic segmentation
+  - skin segmentation
+  - fabric segmentation
+  - DINOv3
+  - TensorRT

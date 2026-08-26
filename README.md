@@ -11,10 +11,10 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/jamal-saeedi/PyraFuse/blob/main/paper/PyraFuse_SkinFabric_VFM.pdf">Paper</a> · <a href="#model-zoo">Model zoo</a> · <a href="#inference">Inference</a> · <a href="#dataset">Dataset</a> · <a href="#training">Training</a>
+  <a href="https://github.com/jamal-saeedi/PyraFuse/blob/main/paper/PyraFuse_SkinFabric_VFM.pdf">Paper</a> · <a href="#model-zoo">Model zoo</a> · <a href="#inference">Inference</a> · <a href="#dataset">Dataset</a> · <a href="#training">Training</a> · <a href="#citation">Cite</a> · <a href="CONTRIBUTING.md">Contribute</a>
 </p>
 
-PyraFuse is a DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference as well as GPU-specific TensorRT deployment. The current release is **v1.1.1**.
+PyraFuse is an open-source DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference as well as GPU-specific TensorRT deployment. The current release is **v1.1.1**.
 
 The accompanying paper has been accepted at **AIMLSystems 2026**. This repository contains the code, reproducible data-preparation pipeline, inference notebooks, model-zoo interface, and accepted manuscript.
 
@@ -278,7 +278,11 @@ twine check dist/*
 
 ## Citation
 
-The manuscript is accepted at AIMLSystems 2026 and is not yet formally published. Citation metadata will be added with the camera-ready bibliographic details. Until then, please link this repository and included accepted manuscript rather than inventing a DOI or page range.
+GitHub recognises [CITATION.cff](CITATION.cff) and provides a ready-to-copy
+software citation from the repository's **Cite this repository** panel. The
+manuscript is accepted at AIMLSystems 2026 and is not yet formally published;
+please do not invent a DOI or page range before the camera-ready bibliographic
+details are available.
 
 ## Licence
 

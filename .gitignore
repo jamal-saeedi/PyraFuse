@@ -45,3 +45,6 @@ artifacts/mplconfig/
 *.onnx
 *.onnx.data
 *.engine
+
+# ExecuTorch programs
+*.pte

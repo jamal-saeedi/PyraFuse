@@ -11,10 +11,10 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/jamal-saeedi/PyraFuse/blob/main/paper/PyraFuse_SkinFabric_VFM.pdf">Paper</a> · <a href="#model-zoo">Model zoo</a> · <a href="#inference">Inference</a> · <a href="#dataset">Dataset</a> · <a href="#training">Training</a> · <a href="#citation">Cite</a> · <a href="CONTRIBUTING.md">Contribute</a>
+  <a href="https://github.com/jamal-saeedi/PyraFuse/blob/main/paper/PyraFuse_SkinFabric_VFM.pdf">Paper</a> · <a href="#model-zoo">Model zoo</a> · <a href="#inference">Inference</a> · <a href="#mobile-and-edge-deployment">Mobile</a> · <a href="#dataset">Dataset</a> · <a href="#training">Training</a> · <a href="#citation">Cite</a> · <a href="CONTRIBUTING.md">Contribute</a>
 </p>
 
-PyraFuse is an open-source DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference as well as GPU-specific TensorRT deployment. The current release is **v1.1.1**.
+PyraFuse is an open-source DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference, GPU-specific TensorRT deployment, and on-device ExecuTorch programs for Android, iOS, and edge devices. The current release is **v1.1.1**.
 
 The accompanying paper has been accepted at **AIMLSystems 2026**. This repository contains the code, reproducible data-preparation pipeline, inference notebooks, model-zoo interface, and accepted manuscript.
 
@@ -29,6 +29,7 @@ The accompanying paper has been accepted at **AIMLSystems 2026**. This repositor
 - A self-contained checkpoint format: configuration, decoder, adapter calibration layers, complete backbone, and optional EMA weights.
 - One model-zoo API for a local checkpoint or a Hugging Face model repository.
 - ONNX/TensorRT export with FP32, mixed FP16, and INT8 build options.
+- Ready-to-run ExecuTorch programs for Android, iOS, React Native, Flutter, and embedded Linux (CPU, Core ML, Vulkan).
 
 ## Installation
 
@@ -61,6 +62,15 @@ For TensorRT, use the NVIDIA TensorRT package that matches the CUDA runtime on t
 
 ```bash
 pip install -e ".[trt]"
+```
+
+For ExecuTorch export and the on-device runtime, use the `mobile` extra in a
+separate environment, because ExecuTorch pins its matching PyTorch release
+(see [Mobile and edge deployment](#mobile-and-edge-deployment)):
+
+```bash
+pip install "torch==2.14.*" --index-url https://download.pytorch.org/whl/cpu
+pip install -e ".[mobile]"
 ```
 
 The package also exposes the data-mask builder as `pyrafuse-data` when the
@@ -171,6 +181,198 @@ INT8 should be calibrated with representative, preprocessed images for productio
   <img src="https://raw.githubusercontent.com/jamal-saeedi/PyraFuse/main/images/mIoU.png" alt="PyraFuse mIoU comparison" width="92%">
 </p>
 
+## Mobile and edge deployment
+
+PyraFuse ships [ExecuTorch](https://executorch.ai) programs (`.pte`) for
+Android, iOS, React Native, Flutter, and embedded Linux. One file runs
+unchanged in every framework that embeds the ExecuTorch runtime. The programs
+are published under `mobile/<variant>/` in the
+[Hugging Face repository](https://huggingface.co/jamal-one/PyraFuse/tree/main/mobile);
+`large` (ViT-L, 1.2 GB) is not exported for phones.
+
+| Target | Runs on | Precision |
+| --- | --- | --- |
+| `xnnpack_fp32` | CPU: Android, iOS, macOS, Linux/ARM boards (Raspberry Pi, Jetson CPU) | FP32 |
+| `xnnpack_int8` | same CPUs, about 4× smaller | INT8 weights, dynamic INT8 activations |
+| `coreml_fp32` | iOS 17+ / macOS 14+ GPU and CPU via Core ML | FP32 |
+| `vulkan_fp32` | Android GPU via Vulkan | FP32 |
+
+| Variant | Program | Size | mIoU | Agreement with PyTorch |
+| --- | --- | ---: | ---: | ---: |
+| `small` | PyTorch reference | | 0.907 | |
+| | `xnnpack_fp32` | 91 MB | 0.907 | 100.00% |
+| | `xnnpack_int8` | 23 MB | 0.906 | 99.78% |
+| | `coreml_fp32` | 92 MB | on device | on device |
+| | `vulkan_fp32` | 91 MB | on device | on device |
+| `small_plus` | PyTorch reference | | 0.908 | |
+| | `xnnpack_fp32` | 119 MB | 0.908 | 100.00% |
+| | `xnnpack_int8` | 31 MB | 0.907 | 99.74% |
+| | `coreml_fp32` | 121 MB | on device | on device |
+| | `vulkan_fp32` | 119 MB | on device | on device |
+| `base` | PyTorch reference | | 0.912 | |
+| | `xnnpack_fp32` | 348 MB | 0.912 | 100.00% |
+| | `xnnpack_int8` | 88 MB | 0.912 | 99.80% |
+| | `coreml_fp32` | 349 MB | on device | on device |
+| | `vulkan_fp32` | 348 MB | on device | on device |
+
+mIoU is measured on the first 200 images of the held-out test split at 448 px by executing each program with the ExecuTorch runtime; the Core ML and Vulkan programs need Apple or Android hardware and are not yet scored.
+
+**Choosing a program.** Start with `small` + `xnnpack_int8` (23 MB) for the
+widest device coverage; use `coreml_fp32` on iOS and `vulkan_fp32` on Android
+to run on the GPU. For NVIDIA Jetson GPUs, use the TensorRT path above.
+
+### Input and output contract
+
+Every program has one `forward` method with static shapes:
+
+- **input** `float32 [1, 3, 448, 448]`: RGB, stretch-resized to 448 × 448, and
+  **divided by 255**. ImageNet mean/std normalisation is inside the program.
+- **output** `float32 [1, 3, 448, 448]`: logits for `0 = background`,
+  `1 = fabric`, `2 = skin`. Take `argmax` over the class dimension and resize
+  the class map back to the photo with nearest-neighbour interpolation.
+
+### Download
+
+```bash
+hf download jamal-one/PyraFuse --include "mobile/small/*" --local-dir pyrafuse-mobile
+```
+
+```python
+from pyrafuse import download_mobile_model
+
+pte_path = download_mobile_model("small", "xnnpack_int8")
+```
+
+### Python and embedded Linux
+
+```bash
+python -m pip install "pyrafuse[mobile]"  # ExecuTorch 1.5 requires torch 2.14
+```
+
+```python
+import numpy as np
+import torch
+from PIL import Image
+from executorch.runtime import Runtime
+from pyrafuse import download_mobile_model
+
+forward = Runtime.get().load_program(
+    download_mobile_model("small", "xnnpack_int8")).load_method("forward")
+
+image = Image.open("example.jpg").convert("RGB")
+pixels = np.asarray(image.resize((448, 448)), dtype=np.float32) / 255.0
+logits = forward.execute([torch.from_numpy(pixels).permute(2, 0, 1)[None]])[0]
+mask = logits.argmax(1)[0].to(torch.uint8).numpy()  # 0=background, 1=fabric, 2=skin
+Image.fromarray(mask).resize(image.size, Image.NEAREST).save("mask.png")
+```
+
+In C++ (for example on a Raspberry Pi), load the same file with the ExecuTorch
+`Module` API: `Module module("pyrafuse_small_xnnpack_int8.pte");`, wrap the
+input with `from_blob(data, {1, 3, 448, 448})`, and call `module.forward(input)`.
+
+### React Native
+
+[`react-native-executorch`](https://github.com/software-mansion/react-native-executorch)
+(0.10+) runs the programs directly through its semantic-segmentation hook, which
+handles resizing, scaling, argmax, and colouring:
+
+```tsx
+import { useSemanticSegmenter } from 'react-native-executorch';
+
+const PYRAFUSE_SMALL = {
+  modelPath:
+    'https://huggingface.co/jamal-one/PyraFuse/resolve/main/mobile/small/pyrafuse_small_xnnpack_int8.pte',
+  modelOpts: {
+    labels: ['background', 'fabric', 'skin'] as const,
+    resizeMode: 'stretch' as const,
+    interpolation: 'linear' as const,
+    outInterpolation: 'nearest' as const,
+    normalizeOpts: { alpha: 1 / 255, beta: 0 }, // mean/std is inside the model
+  },
+};
+
+const { isReady, segment } = useSemanticSegmenter(PYRAFUSE_SMALL);
+// `image` is an RGB/RGBA ImageBuffer, e.g. from a camera frame:
+const { buffer } = await segment(image, {
+  fabric: [242, 147, 62, 160],
+  skin: [44, 177, 154, 160],
+});
+```
+
+Use `pyrafuse_small_coreml_fp32.pte` on iOS by selecting the path with
+`Platform.OS`.
+
+### Flutter
+
+```dart
+import 'package:executorch_flutter/executorch_flutter.dart';
+
+final model = await ExecuTorchModel.load(ptePath);
+final outputs = await model.forward([
+  TensorData(
+    shape: [1, 3, 448, 448],
+    dataType: TensorType.float32,
+    data: inputBytes, // Float32List(3 * 448 * 448) in CHW order, pixel / 255
+  ),
+]);
+// outputs[0]: float32 logits [1, 3, 448, 448]; argmax over the class axis
+```
+
+### Android (Kotlin)
+
+```kotlin
+// build.gradle: implementation("org.pytorch:executorch-android:<version>")
+import org.pytorch.executorch.EValue
+import org.pytorch.executorch.Module
+import org.pytorch.executorch.Tensor
+
+val module = Module.load(ptePath)
+val input = Tensor.fromBlob(chwPixels, longArrayOf(1, 3, 448, 448)) // FloatArray, pixel / 255
+val logits = module.forward(EValue.from(input))[0].toTensor().dataAsFloatArray
+val plane = 448 * 448
+val mask = ByteArray(plane) { i ->
+    var best = 0
+    for (c in 1 until 3) if (logits[c * plane + i] > logits[best * plane + i]) best = c
+    best.toByte()
+}
+```
+
+### iOS (Swift)
+
+```swift
+// Swift Package: https://github.com/pytorch/executorch.git, branch "swiftpm-1.5.1"
+// Products: executorch, backend_xnnpack, backend_coreml, kernels_optimized
+import ExecuTorch
+
+let module = Module(filePath: ptePath)
+try module.load("forward")
+let input = Tensor<Float>(chwPixels, shape: [1, 3, 448, 448]) // pixel / 255
+let logits = try Tensor<Float>(module.forward(input)).scalars()
+```
+
+### Exporting your own checkpoint
+
+```bash
+python -m pip install -e ".[mobile]"
+python scripts/export_mobile.py --variants small small_plus base --eval
+```
+
+The script writes `models/mobile/<variant>/*.pte` and
+[models/mobile/manifest.json](models/mobile/manifest.json) with sizes,
+SHA-256 hashes, backend delegation, and held-out mIoU. It accepts checkpoint
+directories and `--image-size` (a multiple of 16) for faster, lower-resolution
+builds. [notebooks/mobile_executorch.ipynb](notebooks/mobile_executorch.ipynb)
+runs the programs, compares them with PyTorch, and visualises the masks.
+
+**Why there are no FP16 programs.** DINOv3's first transformer block has
+extreme activation outliers: its attention logits reach about 2.5 × 10⁶ for
+ViT-S and 1.4 × 10⁵ for ViT-B, far beyond the FP16 maximum of 65,504. Backends
+that store that product in FP16 (the Core ML Neural Engine, Vulkan FP16)
+output NaNs and a single-class mask. For the same reason, INT8 uses dynamic
+per-token activation scales; static per-tensor INT8 collapses to mIoU ≈ 0.25.
+The Core ML and Vulkan programs are validated at export time but still need
+on-device benchmarks; the XNNPACK programs were executed and scored locally.
+
 ## Dataset
 
 The training labels fuse Fashionpedia fashion annotations with visuAAL skin masks. Data is not versioned in Git. The preparation script downloads missing source files and builds three-class masks; it is safe to re-run.
@@ -238,8 +440,8 @@ precision, checkpoint, and monitoring options.
 ```text
 pyrafuse/
 ├── pyrafuse/       # model, data, training, deployment, and model-zoo code
-├── scripts/        # data preparation, training, and TensorRT export CLIs
-├── notebooks/      # dataset and inference walkthroughs
+├── scripts/        # data preparation, training, TensorRT and ExecuTorch export CLIs
+├── notebooks/      # dataset, inference, and mobile (ExecuTorch) walkthroughs
 ├── models/         # ignored local checkpoints; tracked manifests and guidance
 ├── images/         # paper figures and qualitative results
 ├── paper/          # accepted AIMLSystems 2026 manuscript
@@ -290,4 +492,4 @@ The original PyraFuse source code is released under [Apache-2.0](LICENSE). The p
 
 ## Tags
 
-`skin-fabric-detection` · `skin-segmentation` · `fabric-segmentation` · `semantic-segmentation` · `DINOv3` · `TensorRT`
+`skin-fabric-detection` · `skin-segmentation` · `fabric-segmentation` · `semantic-segmentation` · `DINOv3` · `TensorRT` · `ExecuTorch` · `on-device`

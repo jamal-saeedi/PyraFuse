@@ -15,6 +15,9 @@ keywords = [
     "skin-fabric-detection",
     "dinov3",
     "tensorrt",
+    "executorch",
+    "on-device",
+    "mobile",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -57,6 +60,9 @@ data = [
 ]
 deploy = [
     "onnx>=1.16",
+]
+mobile = [
+    "executorch>=1.5",
 ]
 trt = [
     "onnx>=1.16",

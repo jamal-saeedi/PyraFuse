@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Literal
 
 Variant = Literal["small", "small_plus", "base", "large"]
+MobileTargetName = Literal["xnnpack_fp32", "xnnpack_int8", "coreml_fp32", "vulkan_fp32"]
 
 # Official public release. Set PYRAFUSE_MODEL_REPO or pass repo_id to use a
 # private mirror or a fork instead.
@@ -106,6 +107,48 @@ def resolve_checkpoint(
             f"'{name}' checkpoint."
         )
     return checkpoint
+
+
+# Variants with published ExecuTorch programs; ViT-L is too large for phones.
+MOBILE_VARIANTS = ("small", "small_plus", "base")
+MOBILE_TARGET_NAMES = ("xnnpack_fp32", "xnnpack_int8", "coreml_fp32", "vulkan_fp32")
+
+
+def mobile_model_path(model: str, target: str) -> str:
+    """Hub path of one program: ``mobile/<model>/pyrafuse_<model>_<target>.pte``."""
+    if model not in MOBILE_VARIANTS:
+        raise ValueError(f"No mobile build of '{model}'. Choose one of: "
+                         f"{', '.join(MOBILE_VARIANTS)}.")
+    if target not in MOBILE_TARGET_NAMES:
+        raise ValueError(f"Unknown mobile target '{target}'. Choose one of: "
+                         f"{', '.join(MOBILE_TARGET_NAMES)}.")
+    return f"mobile/{model}/pyrafuse_{model}_{target}.pte"
+
+
+def download_mobile_model(
+    model: str = "small",
+    target: MobileTargetName = "xnnpack_fp32",
+    *,
+    repo_id: str | None = None,
+    revision: str | None = None,
+    token: str | bool | None = None,
+    local_files_only: bool = False,
+) -> Path:
+    """Download one ExecuTorch ``.pte`` program and return its cached path.
+
+    The same file is what Android, iOS, React Native, and Flutter apps load;
+    see ``pyrafuse.deploy.mobile_export`` for its input/output contract.
+    """
+    from huggingface_hub import hf_hub_download
+
+    repo_id = repo_id or os.environ.get("PYRAFUSE_MODEL_REPO") or OFFICIAL_MODEL_REPO
+    return Path(hf_hub_download(
+        repo_id=repo_id,
+        filename=mobile_model_path(model, target),
+        revision=revision,
+        token=token,
+        local_files_only=local_files_only,
+    ))
 
 
 def load_pretrained(

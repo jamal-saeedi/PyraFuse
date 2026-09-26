@@ -8,7 +8,8 @@ PyraFuse/
 ├── small/
 ├── small_plus/
 ├── base/
-└── large/
+├── large/
+└── mobile/                   # ExecuTorch .pte programs + manifest.json
 ```
 
 Every variant folder must include `config.json`, `decoder.pt`, `backbone/`, and—when evaluation used it—`ema.pt`. Keep `backbone/model.safetensors`; avoid serialising a whole `nn.Module` with `torch.save`, which is less safe, less portable, and couples consumers to implementation code.
@@ -36,3 +37,20 @@ Every variant folder must include `config.json`, `decoder.pt`, `backbone/`, and�
 ## TensorRT policy
 
 TensorRT engines are hardware/runtime-specific. If engines are shared, keep them under a separate path such as `tensorrt/<gpu>-trt<version>/<variant>/`, and include a manifest recording GPU, CUDA, TensorRT, ONNX opset, precision, input size, batch profile, build command, and verification result. The eager PyTorch checkpoint remains the portable and archival artifact.
+
+## ExecuTorch (mobile/edge) policy
+
+Unlike TensorRT engines, ExecuTorch `.pte` programs are portable across devices
+for a given backend, so they are published in the model repository under
+`mobile/<variant>/pyrafuse_<variant>_<target>.pte`. Build and upload them with:
+
+```bash
+python scripts/export_mobile.py --variants small small_plus base --eval
+hf upload jamal-one/PyraFuse models/mobile mobile
+```
+
+`models/mobile/manifest.json` is tracked in Git and uploaded alongside the
+programs; it records the ExecuTorch/torch versions, I/O contract, sizes,
+SHA-256 hashes, backend delegation, and held-out mIoU. Re-export when the
+PyTorch weights change, and keep the programs' ExecuTorch version compatible
+with the runtimes pinned by the consuming apps.

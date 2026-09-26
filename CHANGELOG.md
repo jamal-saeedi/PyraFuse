@@ -2,6 +2,18 @@
 
 All notable changes to PyraFuse are documented here.
 
+## [Unreleased]
+
+- Added ExecuTorch mobile and edge deployment: `pyrafuse.deploy.mobile_export`,
+  the `scripts/export_mobile.py` CLI, and the `mobile` extra.
+- Published `.pte` programs for `small`, `small_plus`, and `base` on Hugging Face
+  (`mobile/`): XNNPACK FP32 and INT8 (CPU), Core ML FP32 (iOS/macOS), and
+  Vulkan FP32 (Android GPU), with a manifest of sizes, hashes, and held-out mIoU.
+- Added `download_mobile_model`, `MOBILE_VARIANTS`, and `MOBILE_TARGET_NAMES`.
+- Added `notebooks/mobile_executorch.ipynb` and README usage for React Native,
+  Flutter, Android, iOS, Python, and C++.
+- `pyrafuse.deploy` now imports its TensorRT and ExecuTorch helpers lazily.
+
 ## [1.1.1] - 2026-08-26
 
 - Simplified the published PyPI documentation and installation guidance.

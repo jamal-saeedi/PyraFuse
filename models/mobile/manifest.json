@@ -1,0 +1,403 @@
+{
+  "programs": [
+    {
+      "file": "small/pyrafuse_small_xnnpack_fp32.pte",
+      "target": "xnnpack_fp32",
+      "backend": "xnnpack",
+      "precision": "fp32",
+      "runs_on": "CPU on Android, iOS, macOS, Linux/ARM edge",
+      "size_bytes": 90837004,
+      "sha256": "b601c8d2a6dbd6d719aa22366cd1d45dbbe5ece43f422b338e981ef41ff17e55",
+      "delegate_calls": 72,
+      "non_delegated_ops": [
+        "aten._adaptive_avg_pool2d.default",
+        "aten.arange.start_step",
+        "aten.as_strided_copy.default",
+        "aten.expand_copy.default",
+        "aten.native_group_norm.default",
+        "aten.native_layer_norm.default",
+        "aten.repeat.default",
+        "aten.split_with_sizes_copy.default",
+        "aten.unsqueeze_copy.default",
+        "dim_order_ops._to_dim_order_copy.default"
+      ],
+      "build_time_s": 49.6,
+      "image_size": 448,
+      "variant": "small",
+      "eval": {
+        "miou": 0.907,
+        "iou": {
+          "background": 0.9816,
+          "fabric": 0.934,
+          "skin": 0.8053
+        },
+        "pixel_acc": 0.9802,
+        "median_ms_host_cpu": 468.0,
+        "evaluated_with": "ExecuTorch runtime, host CPU",
+        "pixel_agreement_vs_pytorch": 1.0
+      }
+    },
+    {
+      "file": "small/pyrafuse_small_xnnpack_int8.pte",
+      "target": "xnnpack_int8",
+      "backend": "xnnpack",
+      "precision": "int8",
+      "runs_on": "CPU on Android, iOS, macOS, Linux/ARM edge",
+      "size_bytes": 23352972,
+      "sha256": "aeb044d6347fbed419c417f6e6775f4315169faaf742dee4bd08055893f99c93",
+      "delegate_calls": 72,
+      "non_delegated_ops": [
+        "aten._adaptive_avg_pool2d.default",
+        "aten.arange.start_step",
+        "aten.as_strided_copy.default",
+        "aten.expand_copy.default",
+        "aten.native_group_norm.default",
+        "aten.native_layer_norm.default",
+        "aten.repeat.default",
+        "aten.split_with_sizes_copy.default",
+        "aten.unsqueeze_copy.default",
+        "dim_order_ops._to_dim_order_copy.default"
+      ],
+      "build_time_s": 70.0,
+      "image_size": 448,
+      "variant": "small",
+      "eval": {
+        "miou": 0.9064,
+        "iou": {
+          "background": 0.9815,
+          "fabric": 0.9333,
+          "skin": 0.8045
+        },
+        "pixel_acc": 0.98,
+        "median_ms_host_cpu": 461.8,
+        "evaluated_with": "ExecuTorch runtime, host CPU",
+        "pixel_agreement_vs_pytorch": 0.99775
+      }
+    },
+    {
+      "file": "small/pyrafuse_small_coreml_fp32.pte",
+      "target": "coreml_fp32",
+      "backend": "coreml",
+      "precision": "fp32",
+      "runs_on": "Apple GPU / CPU via Core ML (iOS 17+, macOS 14+)",
+      "size_bytes": 92299382,
+      "sha256": "fe2eba0f1470eb0c210f7ef1866952ce805c8a42284dd39e0af98cbf50214d7a",
+      "delegate_calls": 1,
+      "non_delegated_ops": [],
+      "build_time_s": 22.8,
+      "image_size": 448,
+      "variant": "small",
+      "eval": null
+    },
+    {
+      "file": "small/pyrafuse_small_vulkan_fp32.pte",
+      "target": "vulkan_fp32",
+      "backend": "vulkan",
+      "precision": "fp32",
+      "runs_on": "Android GPU via Vulkan",
+      "size_bytes": 90814732,
+      "sha256": "f1a98a0ac86bdb80430cf1260476ab28bfaf5dfcdb02d6dc023c248d8983e421",
+      "delegate_calls": 2,
+      "non_delegated_ops": [
+        "aten._adaptive_avg_pool2d.default",
+        "aten.as_strided_copy.default"
+      ],
+      "build_time_s": 41.1,
+      "image_size": 448,
+      "variant": "small",
+      "eval": null
+    },
+    {
+      "file": "small_plus/pyrafuse_small_plus_xnnpack_fp32.pte",
+      "target": "xnnpack_fp32",
+      "backend": "xnnpack",
+      "precision": "fp32",
+      "runs_on": "CPU on Android, iOS, macOS, Linux/ARM edge",
+      "size_bytes": 119232652,
+      "sha256": "2a451f94525d62435b6d2fc859e709d0d73b4e402f62b2f19212077587428dda",
+      "delegate_calls": 72,
+      "non_delegated_ops": [
+        "aten._adaptive_avg_pool2d.default",
+        "aten.arange.start_step",
+        "aten.as_strided_copy.default",
+        "aten.expand_copy.default",
+        "aten.native_group_norm.default",
+        "aten.native_layer_norm.default",
+        "aten.repeat.default",
+        "aten.split_with_sizes_copy.default",
+        "aten.unsqueeze_copy.default",
+        "dim_order_ops._to_dim_order_copy.default"
+      ],
+      "build_time_s": 47.1,
+      "image_size": 448,
+      "variant": "small_plus",
+      "eval": {
+        "miou": 0.9079,
+        "iou": {
+          "background": 0.9814,
+          "fabric": 0.935,
+          "skin": 0.8072
+        },
+        "pixel_acc": 0.9802,
+        "median_ms_host_cpu": 492.7,
+        "evaluated_with": "ExecuTorch runtime, host CPU",
+        "pixel_agreement_vs_pytorch": 1.0
+      }
+    },
+    {
+      "file": "small_plus/pyrafuse_small_plus_xnnpack_int8.pte",
+      "target": "xnnpack_int8",
+      "backend": "xnnpack",
+      "precision": "int8",
+      "runs_on": "CPU on Android, iOS, macOS, Linux/ARM edge",
+      "size_bytes": 30601100,
+      "sha256": "03583837dbece044eb089c07aa9264568cf67f79a6c8b335c395d5276979c6a2",
+      "delegate_calls": 84,
+      "non_delegated_ops": [
+        "aten._adaptive_avg_pool2d.default",
+        "aten.arange.start_step",
+        "aten.as_strided_copy.default",
+        "aten.expand_copy.default",
+        "aten.native_group_norm.default",
+        "aten.native_layer_norm.default",
+        "aten.repeat.default",
+        "aten.split_with_sizes_copy.default",
+        "aten.unsqueeze_copy.default",
+        "dim_order_ops._to_dim_order_copy.default"
+      ],
+      "build_time_s": 77.4,
+      "image_size": 448,
+      "variant": "small_plus",
+      "eval": {
+        "miou": 0.9069,
+        "iou": {
+          "background": 0.9811,
+          "fabric": 0.9338,
+          "skin": 0.8059
+        },
+        "pixel_acc": 0.9799,
+        "median_ms_host_cpu": 497.3,
+        "evaluated_with": "ExecuTorch runtime, host CPU",
+        "pixel_agreement_vs_pytorch": 0.99739
+      }
+    },
+    {
+      "file": "small_plus/pyrafuse_small_plus_coreml_fp32.pte",
+      "target": "coreml_fp32",
+      "backend": "coreml",
+      "precision": "fp32",
+      "runs_on": "Apple GPU / CPU via Core ML (iOS 17+, macOS 14+)",
+      "size_bytes": 120703686,
+      "sha256": "0f6ceb623cd2f4590840a452a7194c22afdb26b9afa442d836f979fad667c38f",
+      "delegate_calls": 1,
+      "non_delegated_ops": [],
+      "build_time_s": 23.6,
+      "image_size": 448,
+      "variant": "small_plus",
+      "eval": null
+    },
+    {
+      "file": "small_plus/pyrafuse_small_plus_vulkan_fp32.pte",
+      "target": "vulkan_fp32",
+      "backend": "vulkan",
+      "precision": "fp32",
+      "runs_on": "Android GPU via Vulkan",
+      "size_bytes": 119215372,
+      "sha256": "8b5c2a7715a52de7ce678ecacbd9dd778f2590283534132940dd26019a6ca3c4",
+      "delegate_calls": 2,
+      "non_delegated_ops": [
+        "aten._adaptive_avg_pool2d.default",
+        "aten.as_strided_copy.default"
+      ],
+      "build_time_s": 44.9,
+      "image_size": 448,
+      "variant": "small_plus",
+      "eval": null
+    },
+    {
+      "file": "base/pyrafuse_base_xnnpack_fp32.pte",
+      "target": "xnnpack_fp32",
+      "backend": "xnnpack",
+      "precision": "fp32",
+      "runs_on": "CPU on Android, iOS, macOS, Linux/ARM edge",
+      "size_bytes": 347851148,
+      "sha256": "eb349ab8f49b46e710edfddc791d9c250ffcc29938fba831e80dcd6e012c862e",
+      "delegate_calls": 72,
+      "non_delegated_ops": [
+        "aten._adaptive_avg_pool2d.default",
+        "aten.arange.start_step",
+        "aten.as_strided_copy.default",
+        "aten.expand_copy.default",
+        "aten.native_group_norm.default",
+        "aten.native_layer_norm.default",
+        "aten.repeat.default",
+        "aten.split_with_sizes_copy.default",
+        "aten.unsqueeze_copy.default",
+        "dim_order_ops._to_dim_order_copy.default"
+      ],
+      "build_time_s": 51.4,
+      "image_size": 448,
+      "variant": "base",
+      "eval": {
+        "miou": 0.9125,
+        "iou": {
+          "background": 0.9825,
+          "fabric": 0.9365,
+          "skin": 0.8187
+        },
+        "pixel_acc": 0.9812,
+        "median_ms_host_cpu": 767.1,
+        "evaluated_with": "ExecuTorch runtime, host CPU",
+        "pixel_agreement_vs_pytorch": 1.0
+      }
+    },
+    {
+      "file": "base/pyrafuse_base_xnnpack_int8.pte",
+      "target": "xnnpack_int8",
+      "backend": "xnnpack",
+      "precision": "int8",
+      "runs_on": "CPU on Android, iOS, macOS, Linux/ARM edge",
+      "size_bytes": 87957004,
+      "sha256": "8c27a182b6e66284ac7d4332e945d1b329abf07fa7aaa63b228a6b6a90868df1",
+      "delegate_calls": 72,
+      "non_delegated_ops": [
+        "aten._adaptive_avg_pool2d.default",
+        "aten.arange.start_step",
+        "aten.as_strided_copy.default",
+        "aten.expand_copy.default",
+        "aten.native_group_norm.default",
+        "aten.native_layer_norm.default",
+        "aten.repeat.default",
+        "aten.split_with_sizes_copy.default",
+        "aten.unsqueeze_copy.default",
+        "dim_order_ops._to_dim_order_copy.default"
+      ],
+      "build_time_s": 72.2,
+      "image_size": 448,
+      "variant": "base",
+      "eval": {
+        "miou": 0.9116,
+        "iou": {
+          "background": 0.9822,
+          "fabric": 0.9352,
+          "skin": 0.8173
+        },
+        "pixel_acc": 0.9809,
+        "median_ms_host_cpu": 713.0,
+        "evaluated_with": "ExecuTorch runtime, host CPU",
+        "pixel_agreement_vs_pytorch": 0.99802
+      }
+    },
+    {
+      "file": "base/pyrafuse_base_coreml_fp32.pte",
+      "target": "coreml_fp32",
+      "backend": "coreml",
+      "precision": "fp32",
+      "runs_on": "Apple GPU / CPU via Core ML (iOS 17+, macOS 14+)",
+      "size_bytes": 349313802,
+      "sha256": "0cf0c3e2b71c476a55f035aacb74dfffe163cf60c4112601246830245baf94c6",
+      "delegate_calls": 1,
+      "non_delegated_ops": [],
+      "build_time_s": 25.9,
+      "image_size": 448,
+      "variant": "base",
+      "eval": null
+    },
+    {
+      "file": "base/pyrafuse_base_vulkan_fp32.pte",
+      "target": "vulkan_fp32",
+      "backend": "vulkan",
+      "precision": "fp32",
+      "runs_on": "Android GPU via Vulkan",
+      "size_bytes": 347829004,
+      "sha256": "74c3cdea6c86b836fa7f5f3daf1f2fad86d3eaa4152ba20a043dca7149b8b49f",
+      "delegate_calls": 2,
+      "non_delegated_ops": [
+        "aten._adaptive_avg_pool2d.default",
+        "aten.as_strided_copy.default"
+      ],
+      "build_time_s": 45.2,
+      "image_size": 448,
+      "variant": "base",
+      "eval": null
+    }
+  ],
+  "format": "ExecuTorch .pte",
+  "input": {
+    "name": "image",
+    "dtype": "float32",
+    "shape": [
+      1,
+      3,
+      448,
+      448
+    ],
+    "layout": "NCHW RGB",
+    "range": "[0, 1] (pixel / 255)",
+    "normalization": "ImageNet mean/std applied inside the graph",
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "output": {
+    "name": "logits",
+    "dtype": "float32",
+    "shape": [
+      1,
+      3,
+      448,
+      448
+    ],
+    "classes": {
+      "0": "background",
+      "1": "fabric",
+      "2": "skin"
+    },
+    "postprocess": "argmax over dim 1"
+  },
+  "toolchain": {
+    "executorch": "1.5.1",
+    "torch": "2.14.0+cpu",
+    "coremltools": "9.0"
+  },
+  "eval_protocol": "first 200 images of the held-out test split (seed 42), 448 px stretch-resize; host CPU x86_64",
+  "pytorch_reference": {
+    "small": {
+      "miou": 0.907,
+      "iou": {
+        "background": 0.9816,
+        "fabric": 0.934,
+        "skin": 0.8053
+      },
+      "pixel_acc": 0.9802,
+      "median_ms_host_cpu": 382.0
+    },
+    "small_plus": {
+      "miou": 0.9079,
+      "iou": {
+        "background": 0.9814,
+        "fabric": 0.935,
+        "skin": 0.8072
+      },
+      "pixel_acc": 0.9802,
+      "median_ms_host_cpu": 423.6
+    },
+    "base": {
+      "miou": 0.9125,
+      "iou": {
+        "background": 0.9825,
+        "fabric": 0.9365,
+        "skin": 0.8187
+      },
+      "pixel_acc": 0.9812,
+      "median_ms_host_cpu": 716.0
+    }
+  }
+}

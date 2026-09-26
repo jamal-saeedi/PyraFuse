@@ -99,7 +99,7 @@ from executorch.runtime import Runtime
 from pyrafuse import download_mobile_model  # pip install "pyrafuse[mobile]"
 
 forward = Runtime.get().load_program(
-    download_mobile_model("small", "xnnpack_int8")).load_method("forward")
+    download_mobile_model("small", "xnnpack_int8", revision="v1.2.0")).load_method("forward")
 logits = forward.execute([image])[0]  # image: float32 [1, 3, 448, 448] in [0, 1]
 ```
 

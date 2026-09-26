@@ -5,6 +5,11 @@
 [![PyPI](https://img.shields.io/pypi/v/pyrafuse.svg?label=PyPI&cacheSeconds=60)](https://pypi.org/project/pyrafuse/)
 [![License](https://img.shields.io/github/license/jamal-saeedi/PyraFuse.svg)](LICENSE)
 [![Hugging Face](https://img.shields.io/badge/Model%20Zoo-Hugging%20Face-FFD21E.svg)](https://huggingface.co/jamal-one/PyraFuse)
+[![ExecuTorch](https://img.shields.io/badge/On--device-ExecuTorch-EE4C2C.svg?logo=pytorch&logoColor=white)](#mobile-and-edge-deployment)
+[![Android](https://img.shields.io/badge/Android-CPU%20%7C%20Vulkan-3DDC84.svg?logo=android&logoColor=white)](#android-kotlin)
+[![iOS](https://img.shields.io/badge/iOS-CPU%20%7C%20Core%20ML-000000.svg?logo=apple&logoColor=white)](#ios-swift)
+[![React Native](https://img.shields.io/badge/React%20Native-ExecuTorch-61DAFB.svg?logo=react&logoColor=black)](#react-native)
+[![Flutter](https://img.shields.io/badge/Flutter-ExecuTorch-02569B.svg?logo=flutter&logoColor=white)](#flutter)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/jamal-saeedi/PyraFuse/main/images/flowchart.png" alt="PyraFuse architecture" width="92%">
@@ -14,7 +19,7 @@
   <a href="https://github.com/jamal-saeedi/PyraFuse/blob/main/paper/PyraFuse_SkinFabric_VFM.pdf">Paper</a> · <a href="#model-zoo">Model zoo</a> · <a href="#inference">Inference</a> · <a href="#mobile-and-edge-deployment">Mobile</a> · <a href="#dataset">Dataset</a> · <a href="#training">Training</a> · <a href="#citation">Cite</a> · <a href="CONTRIBUTING.md">Contribute</a>
 </p>
 
-PyraFuse is an open-source DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference, GPU-specific TensorRT deployment, and on-device ExecuTorch programs for Android, iOS, and edge devices. The current release is **v1.1.1**.
+PyraFuse is an open-source DINOv3-based semantic-segmentation framework for **skin, fabric, and background**. It combines multi-scale vision-foundation-model features with a lightweight PyraFuse decoder, and supports research-grade PyTorch inference, GPU-specific TensorRT deployment, and on-device ExecuTorch programs for Android, iOS, and edge devices. The current release is **v1.2.0**.
 
 The accompanying paper has been accepted at **AIMLSystems 2026**. This repository contains the code, reproducible data-preparation pipeline, inference notebooks, model-zoo interface, and accepted manuscript.
 
@@ -240,7 +245,7 @@ hf download jamal-one/PyraFuse --include "mobile/small/*" --local-dir pyrafuse-m
 ```python
 from pyrafuse import download_mobile_model
 
-pte_path = download_mobile_model("small", "xnnpack_int8")
+pte_path = download_mobile_model("small", "xnnpack_int8", revision="v1.2.0")
 ```
 
 ### Python and embedded Linux
@@ -452,25 +457,33 @@ pyrafuse/
 
 - Use the EMA weights for evaluation (`load_pretrained(..., use_ema=True)`).
 - Record the Git commit, Hub revision, model variant, input size, dataset split, metric implementation, CUDA/TensorRT versions, and precision.
-- Tag each GitHub code release with a semantic version. Update the Hugging Face model revision when the published weights change; the current pretrained bundles remain at `v1.0.0`.
+- Tag each GitHub code release with a semantic version. Update the Hugging Face model revision when the published weights change; the PyTorch bundles are unchanged since `v1.0.0`, and the ExecuTorch programs were added at Hub tag `v1.2.0`.
 - Keep raw data, credentials, experiment logs, and binary model artifacts out of Git. The current `.gitignore` enforces this policy.
 
 ## PyPI package
 
-The current package is published as [`pyrafuse 1.1.1`](https://pypi.org/project/pyrafuse/):
+The current package is published as [`pyrafuse 1.2.0`](https://pypi.org/project/pyrafuse/):
 
 ```bash
 python -m pip install pyrafuse
 ```
 
-CI builds and validates a wheel on every push. The
-[publish workflow](.github/workflows/publish-pypi.yml) uploads distributions
-when a GitHub Release is published; its PyPI Trusted Publisher is already
-configured for this repository, so no long-lived token is stored in GitHub.
+CI lints, tests, and builds a validated wheel on every push and pull request.
+Releases are driven by tags: pushing `vX.Y.Z` runs the
+[release workflow](.github/workflows/publish-pypi.yml), which checks that the
+tag matches `version` in `pyproject.toml`, builds and validates the
+distributions, publishes them to PyPI with Trusted Publishing (no stored
+token), and creates the GitHub Release with the matching `CHANGELOG.md` notes.
 
-For maintainers, bump `version` in `pyproject.toml`, commit and tag the change,
-then publish the corresponding GitHub Release. For a local dry run, install the
-release tools and run the same checks used by CI:
+For maintainers: bump `version` in `pyproject.toml` and `CITATION.cff`, add the
+`CHANGELOG.md` section, commit, then tag and push:
+
+```bash
+git tag -a v1.2.0 -m "PyraFuse 1.2.0"
+git push origin v1.2.0
+```
+
+For a local dry run, install the release tools and run the same checks:
 
 ```bash
 python -m pip install -e ".[release]"

@@ -41,6 +41,8 @@ jobs:
           ruff check pyrafuse/__init__.py pyrafuse/zoo.py
           pyrafuse/data/__main__.py pyrafuse/train/trainer.py
           scripts/train_segmenter.py tests/test_zoo.py
+          pyrafuse/deploy/__init__.py pyrafuse/deploy/mobile_export.py
+          scripts/export_mobile.py
 
       - name: Test
         run: pytest -q

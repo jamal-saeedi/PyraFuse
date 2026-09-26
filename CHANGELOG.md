@@ -2,7 +2,7 @@
 
 All notable changes to PyraFuse are documented here.
 
-## [Unreleased]
+## [1.2.0] - 2026-09-26
 
 - Added ExecuTorch mobile and edge deployment: `pyrafuse.deploy.mobile_export`,
   the `scripts/export_mobile.py` CLI, and the `mobile` extra.
@@ -13,6 +13,9 @@ All notable changes to PyraFuse are documented here.
 - Added `notebooks/mobile_executorch.ipynb` and README usage for React Native,
   Flutter, Android, iOS, Python, and C++.
 - `pyrafuse.deploy` now imports its TensorRT and ExecuTorch helpers lazily.
+- Releases are now automated: pushing a `vX.Y.Z` tag verifies the version,
+  publishes to PyPI through Trusted Publishing, and creates the GitHub Release.
+- CI lints the deployment modules and exporter CLI.
 
 ## [1.1.1] - 2026-08-26
 
